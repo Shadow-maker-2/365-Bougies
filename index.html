@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>365-Bougies ! 🎉</title>
+    <!-- Le lien vers ton favicon personnalisé -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        /* --- STYLE GENERAL --- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0933 0%, #3b1154 50%, #5c1875 100%);
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* --- ÉCRAN DE BIENVENUE (LE BOUTON SURPRISE) --- */
+        #welcome-screen {
+            position: absolute;
+            z-index: 10;
+            transition: all 0.8s ease-in-out;
+        }
+
+        .btn-surprise {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulse 1.5s infinite;
+        }
+
+        .btn-surprise:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 65, 108, 0.6);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- CONTENU DE LA SURPRISE (CACHÉ AU DÉBUT) --- */
+        #main-content {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 600px;
+            padding: 20px;
+            z-index: 5;
+        }
+
+        /* Quand on active la surprise */
+        .show-content #main-content {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .show-content #welcome-screen {
+            opacity: 0;
+            transform: scale(0.5);
+            pointer-events: none;
+        }
+
+        /* --- DESIGN DE L'IMAGE --- */
+        .birthday-img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #ffd700; /* Cadre doré */
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        /* --- TEXTES --- */
+        h1 {
+            font-size: 2.8rem;
+            margin: 10px 0;
+            color: #ffd700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #e0d0f0;
+        }
+
+        /* --- EFFET AUDIO CACHÉ --- */
+        audio {
+            display: none;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <audio id="birthday-song" src="musique.mp3" loop></audio>
+
+    <div id="welcome-screen">
+        <button class="btn-surprise" onclick="ouvrirLaSurprise()">🎁 Clique pour ouvrir la surprise !</button>
+    </div>
+
+    <div id="main-content">
+        <!-- L'image recadrée en cercle de ton illustration -->
+        <img src="photo.png" alt="Illustration d'anniversaire" class="birthday-img">
+        <h1>Joyeux Anniversaire ! 🎉</h1>
+        <p>Aujourd'hui est un jour spécial. Que cette journée soit remplie de joie, de rires, de gâteaux et de merveilleux moments entouré(e) de ceux que tu aimes ! 🎂✨</p>
+    </div>
+
+    <script>
+        function ouvrirLaSurprise() {
+            // 1. On lance la musique
+            const audio = document.getElementById('birthday-song');
+            audio.play().catch(error => {
+                console.log("Lecture automatique bloquée :", error);
+            });
+
+            // 2. On affiche le contenu caché
+            document.body.classList.add('show-content');
+
+            // 3. L'explosion de confettis magiques !
+            lancerConfettis();
+        }
+
+        function lancerConfettis() {
+            // Première grosse explosion au centre
+            confetti({
+                particleCount: 150,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+
+            // Petites salves supplémentaires sur les côtés après un court instant
+            setTimeout(() => {
+                confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } });
+            }, 250);
+            
+            setTimeout(() => {
+                confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } });
+            }, 400);
+        }
+    </script>
+
+</body>
+</html>
